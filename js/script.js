@@ -1,10 +1,25 @@
 const menuButton = document.querySelector('.menu-btn');
 const navLinks = document.getElementById('nav-links');
+const mobileBackdrop = document.getElementById('mobile-backdrop');
+const body = document.body;
+
+const updateMenuState = isOpen => {
+  menuButton.setAttribute('aria-expanded', String(isOpen));
+  navLinks.classList.toggle('show', isOpen);
+  body.classList.toggle('menu-open', isOpen);
+};
 
 menuButton.addEventListener('click', () => {
-  const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
-  menuButton.setAttribute('aria-expanded', String(!isExpanded));
-  navLinks.classList.toggle('show');
+  const isOpen = !navLinks.classList.contains('show');
+  updateMenuState(isOpen);
+});
+
+mobileBackdrop.addEventListener('click', () => {
+  updateMenuState(false);
+});
+
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => updateMenuState(false));
 });
 
 const counters = document.querySelectorAll('.num');
